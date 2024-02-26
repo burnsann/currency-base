@@ -17,12 +17,12 @@ import '@testing-library/jest-dom/extend-expect';
   
       for(const testObj of testCases){
 
-      render(<ResultBox from="PLN" to="USD" amount={parseFloat(testObj.amount)} />);
-      const output = screen.getByTestId('output');
-      expect(output).toHaveTextContent(`PLN ${testObj.amount}.00 = $${testObj.toUSD}`);
+        render(<ResultBox from="PLN" to="USD" amount={parseFloat(testObj.amount)} />);
+        const output = screen.getByTestId('output');
+        expect(output).toHaveTextContent(`PLN ${testObj.amount}.00 = $${testObj.toUSD}`);
 
-      // unmount component
-      cleanup();
+        // unmount component
+        cleanup();
       }
     });
     it('should render proper info about conversion when USD -> PLN', () => {
@@ -36,28 +36,28 @@ import '@testing-library/jest-dom/extend-expect';
   
       for(const testObj of testCases){
 
-      render(<ResultBox from="USD" to="PLN" amount={parseFloat(testObj.amount)} />);
-      const output = screen.getByTestId('output');
-      expect(output).toHaveTextContent(`$${testObj.amount}.00 = PLN ${testObj.toPLN}`);
-      
-      // unmount component
-      cleanup();
+        render(<ResultBox from="USD" to="PLN" amount={parseFloat(testObj.amount)} />);
+        const output = screen.getByTestId('output');
+        expect(output).toHaveTextContent(`$${testObj.amount}.00 = PLN ${testObj.toPLN}`);
+        
+        // unmount component
+        cleanup();
       }
     });
-    it('should render proper info about conversion when PLN -> PLN', () => {
+    it('should render proper info about conversion when PLN -> PLN and USD -> USD', () => {
 
       const testCases = [
-        { amount: '100' },
-        { amount: '20' },
-        { amount: '200' },
-        { amount: '17' },
+        { amount: '100', from: 'PLN', to: 'PLN', expectedText: 'PLN 100.00 = PLN 100.00' },
+        { amount: '20', from: 'PLN', to: 'PLN', expectedText: 'PLN 20.00 = PLN 20.00' },
+        { amount: '200', from: 'USD', to: 'USD', expectedText: '$200.00 = $200.00' },
+        { amount: '17', from: 'USD', to: 'USD', expectedText: '$17.00 = $17.00' },
       ];
   
       for(const testObj of testCases){
 
-      render(<ResultBox from="PLN" to="PLN" amount={parseFloat(testObj.amount)} />);
-      const output = screen.getByTestId('output');
-      expect(output).toHaveTextContent(`PLN ${testObj.amount}.00 = PLN ${testObj.amount}`);
+        render(<ResultBox from={testObj.from} to={testObj.to} amount={parseFloat(testObj.amount)} />);
+        const output = screen.getByTestId('output');
+        expect(output).toHaveTextContent(testObj.expectedText);
       
       // unmount component
       cleanup();
@@ -72,12 +72,12 @@ import '@testing-library/jest-dom/extend-expect';
       ];
 
       for(const testObj of testCases){
-      render(<ResultBox from={testObj.from} to={testObj.to} amount={parseFloat(testObj.amount)} />);
-      const output = screen.getByTestId('output');
-      expect(output).toHaveTextContent('Wrong value...');
+        render(<ResultBox from={testObj.from} to={testObj.to} amount={parseFloat(testObj.amount)} />);
+        const output = screen.getByTestId('output');
+        expect(output).toHaveTextContent('Wrong value...');
 
-      // unmount component
-      cleanup();
+        // unmount component
+        cleanup();
       }
     })
 });
